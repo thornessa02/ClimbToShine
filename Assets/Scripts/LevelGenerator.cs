@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour
 {
+    public GameObject player;
+
     [Header("Seeds")]
     [SerializeField] bool randomSeed;
     [SerializeField] int seed;
@@ -17,26 +19,27 @@ public class LevelGenerator : MonoBehaviour
 
     [Header("QTE")]
     [SerializeField] QTEManager qte;
-    List<QTESequence.XboxControllerInput>[] QteSequences;
+    public struct QTEmodule
+    {
+        public List<QTESequence.XboxControllerInput> sequence;
+        public List<Transform> sockets;
+    }
+    List<QTEmodule> QTEList = new List<QTEmodule>();
 
     [Header("Cam")]
     [SerializeField] GameObject cam;
     [SerializeField] float camLerpDuration;
+
+
     void Start()
     {
         randomSystem = GetComponent<RandomSystem>();
         if (randomSeed) seed = Random.Range(0,1000);
         randomSystem.Initialize(seed);
-
-        QteSequences = new List<QTESequence.XboxControllerInput>[levelSize];
-        for (int i = 0; i < levelSize; i++)
-        {
-            QteSequences[i] = new List<QTESequence.XboxControllerInput>();
-        }
         GenerateWorld();
 
         //First QTE
-        qte.InitQTE(QteSequences[0]);
+        qte.InitQTE(QTEList[0]);
     }
 
     void GenerateWorld()
@@ -45,7 +48,17 @@ public class LevelGenerator : MonoBehaviour
         {
             GameObject module = randomSystem.GetRandomElement(moduleList);
             GameObject instantiated = Instantiate(module, Vector3.up * i * moduleSize, Quaternion.identity);
-            QteSequences[i] = instantiated.GetComponent<QTESequence>().inputSequence;
+
+            QTEmodule qte = new QTEmodule();
+            qte.sequence = instantiated.GetComponent<QTESequence>().inputSequence;
+            qte.sockets = new List<Transform>();
+            foreach (Transform child in instantiated.transform)
+            {
+                qte.sockets.Add(child);
+            }
+            qte.sockets.RemoveAt(0);
+
+            QTEList.Add(qte);
         }
     }
     public void NextModule()
@@ -55,7 +68,7 @@ public class LevelGenerator : MonoBehaviour
         Vector3 endPosition = cam.transform.position + Vector3.up *moduleSize;
         StartCoroutine(CameraLerp(cam.transform.position,endPosition));
 
-        qte.InitQTE(QteSequences[progression]);
+        //qte.InitQTE(QTEList[progression]);
     }
 
     IEnumerator CameraLerp(Vector3 startPosition, Vector3 endPosition)
@@ -70,6 +83,7 @@ public class LevelGenerator : MonoBehaviour
         }
 
         cam.transform.position = endPosition;
+        qte.InitQTE(QTEList[progression]);
         yield return null;
     }
 }
