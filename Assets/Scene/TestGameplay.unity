@@ -351,6 +351,18 @@ MonoBehaviour:
       enableFptlForForwardOpaque: 0
       enableBigTilePrepass: 0
       isFptlEnabled: 0
+--- !u!114 &791225445 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9010006701249079173, guid: 88b24771dc61ce441bf3f48ab87e6841,
+    type: 3}
+  m_PrefabInstance: {fileID: 3965122325038768543}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a23847a946b840c4cb247574d73c6dd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1015180717
 GameObject:
   m_ObjectHideFlags: 0
@@ -769,12 +781,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   randomSeed: 0
-  seed: 520
+  seed: 842
   moduleList:
   - {fileID: 6841745834275682233, guid: 702348481a7497548a26a6a281cb5849, type: 3}
   - {fileID: 7401128798780686045, guid: 88598c4361bb5de41bcfbad0f76e7d8b, type: 3}
   moduleSize: 10
   levelSize: 10
+  qte: {fileID: 791225445}
+  cam: {fileID: 565776618}
+  camLerpDuration: 1
 --- !u!114 &2130823758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1015,13 +1030,21 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9010006701249079173, guid: 88b24771dc61ce441bf3f48ab87e6841,
+        type: 3}
+      propertyPath: levelGenerator
+      value: 
+      objectReference: {fileID: 2130823757}
     - target: {fileID: 9172421084882669982, guid: 88b24771dc61ce441bf3f48ab87e6841,
         type: 3}
       propertyPath: m_Name
       value: QTE
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 8299572278112533793, guid: 88b24771dc61ce441bf3f48ab87e6841, type: 3}
+    - {fileID: 8528553220147494288, guid: 88b24771dc61ce441bf3f48ab87e6841, type: 3}
+    - {fileID: 6245547420840074128, guid: 88b24771dc61ce441bf3f48ab87e6841, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88b24771dc61ce441bf3f48ab87e6841, type: 3}

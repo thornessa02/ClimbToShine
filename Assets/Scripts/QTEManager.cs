@@ -5,23 +5,26 @@ using UnityEngine.UI;
 
 public class QTEManager : MonoBehaviour
 {
+    [SerializeField] LevelGenerator levelGenerator;
     [SerializeField] GameObject inputImage;
-    List<QTESequence.XboxControllerInput> actualSequence;
+    
     [SerializeField] List<Sprite> inputIconList;
     Dictionary<QTESequence.XboxControllerInput, Sprite> inputIconDictionary;
     private Dictionary<QTESequence.XboxControllerInput, KeyCode> inputToKeyCode;
+
+    List<QTESequence.XboxControllerInput> actualSequence;
+    bool inQTE = false;
     void Start()
     {
-        
-        actualSequence = GetComponent<QTESequence>().inputSequence;
+        actualSequence = new List<QTESequence.XboxControllerInput>();
         InitDictionaries();
-        InitQTE();
+        //InitQTE();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(actualSequence.Count != 0)
+        if (actualSequence.Count != 0 && inQTE)
         {
             if (Input.GetKeyDown(inputToKeyCode[actualSequence[0]]))
             {
@@ -29,10 +32,18 @@ public class QTEManager : MonoBehaviour
                 actualSequence.RemoveAt(0);
             }
         }
+        else if (inQTE)
+        {
+            inQTE = false;
+            levelGenerator.NextModule();
+        }
     }
 
-    void InitQTE()
+    public void InitQTE(List<QTESequence.XboxControllerInput> Sequence)
     {
+        actualSequence = Sequence;
+        //actualSequence = new List<QTESequence.XboxControllerInput>() { QTESequence.XboxControllerInput.A, QTESequence.XboxControllerInput.B, QTESequence.XboxControllerInput.X };
+        inQTE = true;
         //clean actual
         int childCount = transform.childCount;
         for (int i = childCount - 1; i >= 0; i--)
