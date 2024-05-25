@@ -56,9 +56,9 @@ MonoBehaviour:
   inputImage: {fileID: 6362978825520681482, guid: c804448ef11632d4f9440a17ab1ea870,
     type: 3}
   inputIconList:
-  - {fileID: 21300000, guid: f609c9b3b1675f947a865ec558b5ad90, type: 3}
-  - {fileID: 21300000, guid: d08c52c09554ca8418a86627f4bd14e1, type: 3}
-  - {fileID: 21300000, guid: cde7469096582e04897fae80dfc34fbe, type: 3}
+  - {fileID: 21300000, guid: 3d62e855b8f2720448ce0417bfb5ede8, type: 3}
+  - {fileID: 21300000, guid: ba8088b92b30d554985cf2ff838188e1, type: 3}
+  - {fileID: 21300000, guid: 719cc20727d160e429f34be378909b33, type: 3}
   - {fileID: 21300000, guid: 17fd7d74524d4cc4ea612a100880d012, type: 3}
   - {fileID: 21300000, guid: 672696fcd6aec9d4c84945fa59765f64, type: 3}
   - {fileID: 21300000, guid: ed60ff0de79971e468ae179e077d66ca, type: 3}
@@ -70,6 +70,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: d544feb63b186dd45b32d12cfc6762bf, type: 3}
   - {fileID: 21300000, guid: 44d8f279ef345c442ae875caa0c26731, type: 3}
   - {fileID: 21300000, guid: cfa9b832ea5877745a96e61e8ffaeca2, type: 3}
+  playerLerpDuration: 0
 --- !u!114 &243109391763396181
 MonoBehaviour:
   m_ObjectHideFlags: 0
