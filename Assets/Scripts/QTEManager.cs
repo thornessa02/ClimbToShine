@@ -17,6 +17,13 @@ public class QTEManager : MonoBehaviour
     bool inQTE = false;
     Canvas canvas;
     [SerializeField] float playerLerpDuration;
+
+    [SerializeField] GameObject LStickPivot;
+    [SerializeField] GameObject RStickPivot;
+    [SerializeField] float rotationSpeed = 100f;
+    [SerializeField] float angleThreshold;
+    public float angleR = 0;
+    public float angleL = -90;
     void Start()
     {
         actualSequence = new List<QTESequence.XboxControllerInput>();
@@ -46,8 +53,37 @@ public class QTEManager : MonoBehaviour
             inQTE = false;
             levelGenerator.NextModule();
         }
+
+
+        //move joystitck icon
+        moveJoystick(angleL, LStickPivot);
+        moveJoystick(angleR, RStickPivot);
+
+
+        //check Ljoystick
+        float LhorizontalInput = Input.GetAxis("Horizontal");
+        float LverticalInput = Input.GetAxis("Vertical");
+        checkJoystickPosition(angleL, LhorizontalInput, LverticalInput);
+
+        //check Rjoystick
+        float RhorizontalInput = Input.GetAxis("RHorizontal");
+        float RverticalInput = Input.GetAxis("RVertical");
+
+        checkJoystickPosition(angleR, RhorizontalInput, RverticalInput);
     }
 
+    void moveJoystick(float angleNeeded, GameObject joystick)
+    {
+        Quaternion targetRotation = Quaternion.Euler(0, 0, angleNeeded);
+        joystick.transform.rotation = Quaternion.RotateTowards(joystick.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+    }
+    void checkJoystickPosition(float angleNeeded, float horizontalInput, float verticalInput)
+    {
+        float joystickangle = Mathf.Atan2(verticalInput, horizontalInput) * Mathf.Rad2Deg;
+        joystickangle -= 90;
+        if (Mathf.Abs(Mathf.DeltaAngle(joystickangle, angleNeeded)) <= angleThreshold && new Vector2(horizontalInput, verticalInput).sqrMagnitude > 0.01f)
+            print(angleNeeded);
+    }
     public void InitQTE(LevelGenerator.QTEmodule Sequence)
     {
         actualSequence = Sequence.sequence;
