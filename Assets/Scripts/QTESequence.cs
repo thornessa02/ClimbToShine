@@ -5,6 +5,8 @@ using UnityEngine;
 public class QTESequence : MonoBehaviour
 {
     public List<XboxControllerInput> inputSequence;
+    public List<Transform> iconSockets;
+    public List<Transform> playerSockets;
 
     public enum XboxControllerInput
     {

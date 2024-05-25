@@ -22,7 +22,8 @@ public class LevelGenerator : MonoBehaviour
     public struct QTEmodule
     {
         public List<QTESequence.XboxControllerInput> sequence;
-        public List<Transform> sockets;
+        public List<Transform> iconSockets;
+        public List<Transform> playerSockets;
     }
     List<QTEmodule> QTEList = new List<QTEmodule>();
 
@@ -51,12 +52,8 @@ public class LevelGenerator : MonoBehaviour
 
             QTEmodule qte = new QTEmodule();
             qte.sequence = instantiated.GetComponent<QTESequence>().inputSequence;
-            qte.sockets = new List<Transform>();
-            foreach (Transform child in instantiated.transform)
-            {
-                qte.sockets.Add(child);
-            }
-            qte.sockets.RemoveAt(0);
+            qte.iconSockets = instantiated.GetComponent<QTESequence>().iconSockets;
+            qte.playerSockets = instantiated.GetComponent<QTESequence>().playerSockets;
 
             QTEList.Add(qte);
         }

@@ -36,7 +36,8 @@ public class QTEManager : MonoBehaviour
                 actualSequence.RemoveAt(0);
 
                 //move player
-                StartCoroutine(PlayerLerp(levelGenerator.player.transform.position,playerPosList[0].position));
+                StartCoroutine(PlayerLerp(levelGenerator.player.transform.position,
+                    playerPosList[0].position - new Vector3(0,1.5f,0)));
                 playerPosList.RemoveAt(0);
             }
         }
@@ -50,7 +51,7 @@ public class QTEManager : MonoBehaviour
     public void InitQTE(LevelGenerator.QTEmodule Sequence)
     {
         actualSequence = Sequence.sequence;
-        playerPosList = Sequence.sockets;
+        playerPosList = Sequence.playerSockets;
         //actualSequence = new List<QTESequence.XboxControllerInput>() { QTESequence.XboxControllerInput.A, QTESequence.XboxControllerInput.B, QTESequence.XboxControllerInput.X };
         inQTE = true;
         //clean actual
@@ -67,7 +68,7 @@ public class QTEManager : MonoBehaviour
             GameObject image = Instantiate(inputImage, transform);
             image.GetComponent<Image>().sprite = inputIconDictionary[actualSequence[i]];
 
-            Vector3 screenPos = Camera.main.WorldToScreenPoint(Sequence.sockets[i].position);
+            Vector3 screenPos = Camera.main.WorldToScreenPoint(Sequence.iconSockets[i].position);
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
             canvas.transform as RectTransform, screenPos, canvas.worldCamera, out Vector2 canvasPos);
 
