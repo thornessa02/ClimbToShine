@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1060477864757476975}
   - component: {fileID: 9010006701249079173}
-  - component: {fileID: 2433491267740391163}
   - component: {fileID: 243109391763396181}
   m_Layer: 5
   m_Name: QTE
@@ -53,6 +52,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a23847a946b840c4cb247574d73c6dd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelGenerator: {fileID: 0}
   inputImage: {fileID: 6362978825520681482, guid: c804448ef11632d4f9440a17ab1ea870,
     type: 3}
   inputIconList:
@@ -70,19 +70,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: d544feb63b186dd45b32d12cfc6762bf, type: 3}
   - {fileID: 21300000, guid: 44d8f279ef345c442ae875caa0c26731, type: 3}
   - {fileID: 21300000, guid: cfa9b832ea5877745a96e61e8ffaeca2, type: 3}
---- !u!114 &2433491267740391163
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9172421084882669982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 327ff2cdd25facd43aec5561ef375bb2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inputSequence: 000000000200000001000000
 --- !u!114 &243109391763396181
 MonoBehaviour:
   m_ObjectHideFlags: 0
