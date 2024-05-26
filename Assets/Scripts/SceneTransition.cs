@@ -13,4 +13,8 @@ public class SceneTransition : MonoBehaviour
     {
         SceneManager.LoadScene(index);
     }
+    public void Reload()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 }

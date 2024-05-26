@@ -23,20 +23,6 @@ public class QTESequence : MonoBehaviour
         RightBumper,
         LeftTrigger,
         RightTrigger,
-        LeftStick,
-        RightStick,
-        DPadUp,
-        DPadDown,
-        DPadLeft,
-        DPadRight,
-        //LeftStickUp,
-        //LeftStickDown,
-        //LeftStickLeft,
-        //LeftStickRight,
-        //RightStickUp,
-        //RightStickDown,
-        //RightStickLeft,
-        //RightStickRight
     }
 
 }
