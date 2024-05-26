@@ -63,6 +63,7 @@ public class QTEManager : MonoBehaviour
         //check Ljoystick
         float LhorizontalInput = Input.GetAxis("Horizontal");
         float LverticalInput = Input.GetAxis("Vertical");
+
         checkJoystickPosition(angleL, LhorizontalInput, LverticalInput);
 
         //check Rjoystick
