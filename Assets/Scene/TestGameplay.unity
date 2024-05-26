@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 262.38358, g: 325.10843, b: 430.30963, a: 1}
+  m_IndirectSpecularColor: {r: 4410.195, g: 8220.563, b: 8255.173, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1491,7 +1491,7 @@ PrefabInstance:
     - target: {fileID: 7401128798780686045, guid: 88598c4361bb5de41bcfbad0f76e7d8b,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1535,6 +1535,8 @@ MonoBehaviour:
   seed: 842
   moduleList:
   - {fileID: 7401128798780686045, guid: 88598c4361bb5de41bcfbad0f76e7d8b, type: 3}
+  finishModule: {fileID: 6841745834275682233, guid: 702348481a7497548a26a6a281cb5849,
+    type: 3}
   moduleSize: 10
   levelSize: 10
   qte: {fileID: 791225445}
@@ -1832,8 +1834,13 @@ PrefabInstance:
       objectReference: {fileID: 1209519073}
     - target: {fileID: 9010006701249079173, guid: 88b24771dc61ce441bf3f48ab87e6841,
         type: 3}
+      propertyPath: joystickTimer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9010006701249079173, guid: 88b24771dc61ce441bf3f48ab87e6841,
+        type: 3}
       propertyPath: rotationSpeed
-      value: 10000
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 9010006701249079173, guid: 88b24771dc61ce441bf3f48ab87e6841,
         type: 3}

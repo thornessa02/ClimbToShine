@@ -13,6 +13,7 @@ public class LevelGenerator : MonoBehaviour
 
     [Header("Modules")]
     [SerializeField] GameObject[] moduleList;
+    [SerializeField] GameObject finishModule;
     [SerializeField] float moduleSize;
     [SerializeField] int levelSize;
     int progression = 0;
@@ -22,6 +23,9 @@ public class LevelGenerator : MonoBehaviour
     public struct QTEmodule
     {
         public List<QTESequence.XboxControllerInput> sequence;
+        public List<float> leftJoystickPos;
+        public List<float> rightJoystickPos;
+
         public List<Transform> iconSockets;
         public List<Transform> playerSockets;
     }
@@ -52,11 +56,15 @@ public class LevelGenerator : MonoBehaviour
 
             QTEmodule qte = new QTEmodule();
             qte.sequence = instantiated.GetComponent<QTESequence>().inputSequence;
+            qte.leftJoystickPos = instantiated.GetComponent<QTESequence>().leftJoystickPos;
+            qte.rightJoystickPos = instantiated.GetComponent<QTESequence>().rightJoystickPos;
             qte.iconSockets = instantiated.GetComponent<QTESequence>().iconSockets;
             qte.playerSockets = instantiated.GetComponent<QTESequence>().playerSockets;
 
             QTEList.Add(qte);
         }
+
+        Instantiate(finishModule, Vector3.up * levelSize * moduleSize, Quaternion.identity);
     }
     public void NextModule()
     {

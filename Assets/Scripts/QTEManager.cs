@@ -13,6 +13,8 @@ public class QTEManager : MonoBehaviour
     private Dictionary<QTESequence.XboxControllerInput, KeyCode> inputToKeyCode;
 
     List<QTESequence.XboxControllerInput> actualSequence;
+    List<float> actualleftJoystickPos;
+    List<float> actualrightJoystickPos;
     List<Transform> playerPosList;
     bool inQTE = false;
     Canvas canvas;
@@ -22,12 +24,16 @@ public class QTEManager : MonoBehaviour
     [SerializeField] GameObject RStickPivot;
     [SerializeField] float rotationSpeed = 100f;
     [SerializeField] float angleThreshold;
-    public float angleR = 0;
-    public float angleL = -90;
+
+    float timeToLoose;
+    [SerializeField] float joystickTimer;
+    bool LjoystickGood;
+    bool RjoystickGood;
     void Start()
     {
         actualSequence = new List<QTESequence.XboxControllerInput>();
         canvas = transform.parent.GetComponent<Canvas>();
+        timeToLoose = joystickTimer;
         InitDictionaries();
         //InitQTE();
     }
@@ -35,42 +41,90 @@ public class QTEManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (actualSequence.Count != 0 && inQTE)
+        if (!gameOver && inQTE)
         {
-            if (Input.GetKeyDown(inputToKeyCode[actualSequence[0]]))
+            if (actualSequence.Count != 0)
             {
-                Destroy(transform.GetChild(0).gameObject);
-                actualSequence.RemoveAt(0);
+                if (Input.GetKeyDown(inputToKeyCode[actualSequence[0]]))
+                {
+                    Destroy(transform.GetChild(0).gameObject);
+                    actualSequence.RemoveAt(0);
 
-                //move player
-                StartCoroutine(PlayerLerp(levelGenerator.player.transform.position,
-                    playerPosList[0].position - new Vector3(0,1.5f,0)));
-                playerPosList.RemoveAt(0);
+                    //move player
+                    StartCoroutine(PlayerLerp(levelGenerator.player.transform.position,
+                        playerPosList[0].position - new Vector3(0, 1.5f, 0)));
+                    playerPosList.RemoveAt(0);
+
+                    actualleftJoystickPos.RemoveAt(0);
+                    actualrightJoystickPos.RemoveAt(0);
+                }
+                else if (Input.anyKeyDown)
+                {
+                    GameOver();
+                }
+            }
+            else
+            {
+                inQTE = false;
+                LStickPivot.SetActive(false);
+                RStickPivot.SetActive(false);
+                levelGenerator.NextModule();
+            }
+
+        }
+
+        if (!gameOver)
+        {
+            //Left joystick
+            if (actualleftJoystickPos[0] < 0)
+            {
+                LStickPivot.SetActive(false);
+            }
+            else
+            {
+                LStickPivot.SetActive(true);
+                moveJoystick(actualleftJoystickPos[0], LStickPivot);
+
+            }
+            //check Ljoystick
+            float LhorizontalInput = Input.GetAxis("Horizontal");
+            float LverticalInput = Input.GetAxis("Vertical");
+
+            LjoystickGood = checkJoystickPosition(actualleftJoystickPos[0], LhorizontalInput, LverticalInput);
+
+            //Right joystick
+            if (actualrightJoystickPos[0] < 0)
+            {
+                RStickPivot.SetActive(false);
+            }
+            else
+            {
+                RStickPivot.SetActive(true);
+                moveJoystick(actualrightJoystickPos[0], RStickPivot);
+
+            }
+
+            //check Rjoystick
+            float RhorizontalInput = Input.GetAxis("RHorizontal");
+            float RverticalInput = Input.GetAxis("RVertical");
+
+            RjoystickGood = checkJoystickPosition(actualrightJoystickPos[0], RhorizontalInput, RverticalInput);
+
+            if(RjoystickGood && LjoystickGood)
+            {
+                timeToLoose = joystickTimer;
+            }
+            else
+            {
+                timeToLoose -= Time.deltaTime;
+            }
+
+            if (timeToLoose <= 0)
+            {
+                GameOver();
             }
         }
-        else if (inQTE)
-        {
-            inQTE = false;
-            levelGenerator.NextModule();
-        }
-
-
-        //move joystitck icon
-        moveJoystick(angleL, LStickPivot);
-        moveJoystick(angleR, RStickPivot);
-
-
-        //check Ljoystick
-        float LhorizontalInput = Input.GetAxis("Horizontal");
-        float LverticalInput = Input.GetAxis("Vertical");
-
-        checkJoystickPosition(angleL, LhorizontalInput, LverticalInput);
-
-        //check Rjoystick
-        float RhorizontalInput = Input.GetAxis("RHorizontal");
-        float RverticalInput = Input.GetAxis("RVertical");
-
-        checkJoystickPosition(angleR, RhorizontalInput, RverticalInput);
+        //print(timeToLoose);
     }
 
     void moveJoystick(float angleNeeded, GameObject joystick)
@@ -78,18 +132,39 @@ public class QTEManager : MonoBehaviour
         Quaternion targetRotation = Quaternion.Euler(0, 0, angleNeeded);
         joystick.transform.rotation = Quaternion.RotateTowards(joystick.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
-    void checkJoystickPosition(float angleNeeded, float horizontalInput, float verticalInput)
+    bool checkJoystickPosition(float angleNeeded, float horizontalInput, float verticalInput)
     {
         float joystickangle = Mathf.Atan2(verticalInput, horizontalInput) * Mathf.Rad2Deg;
         joystickangle -= 90;
-        if (Mathf.Abs(Mathf.DeltaAngle(joystickangle, angleNeeded)) <= angleThreshold && new Vector2(horizontalInput, verticalInput).sqrMagnitude > 0.01f)
-            print(angleNeeded);
+        if (angleNeeded >= 0)
+        {
+            if (Mathf.Abs(Mathf.DeltaAngle(joystickangle, angleNeeded)) <= angleThreshold && new Vector2(horizontalInput, verticalInput).sqrMagnitude > 0.01f)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            if (new Vector2(horizontalInput, verticalInput).sqrMagnitude < 0.01f)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
     public void InitQTE(LevelGenerator.QTEmodule Sequence)
     {
-        actualSequence = Sequence.sequence;
         playerPosList = Sequence.playerSockets;
-        //actualSequence = new List<QTESequence.XboxControllerInput>() { QTESequence.XboxControllerInput.A, QTESequence.XboxControllerInput.B, QTESequence.XboxControllerInput.X };
+        actualleftJoystickPos = Sequence.leftJoystickPos;
+        actualrightJoystickPos = Sequence.rightJoystickPos;
+        actualSequence = Sequence.sequence;
         inQTE = true;
         //clean actual
         int childCount = transform.childCount;
@@ -146,5 +221,13 @@ public class QTEManager : MonoBehaviour
 
         levelGenerator.player.transform.position = endPosition;
         yield return null;
+    }
+
+    bool gameOver;
+    void GameOver()
+    {
+        gameOver = true;
+        StartCoroutine(PlayerLerp(levelGenerator.player.transform.position,
+                    playerPosList[0].position - new Vector3(0, 15f, 0)));
     }
 }
