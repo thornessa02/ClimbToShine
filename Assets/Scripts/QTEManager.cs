@@ -2,82 +2,199 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Rendering.HighDefinition;
+
 
 public class QTEManager : MonoBehaviour
 {
     [SerializeField] LevelGenerator levelGenerator;
-    [SerializeField] GameObject inputImage;
+    //[SerializeField] GameObject inputImage;
     
-    [SerializeField] List<Sprite> inputIconList;
-    Dictionary<QTESequence.XboxControllerInput, Sprite> inputIconDictionary;
+    [SerializeField] List<Material> inputIconList;
+    Dictionary<QTESequence.XboxControllerInput, Material> inputIconDictionary;
     private Dictionary<QTESequence.XboxControllerInput, KeyCode> inputToKeyCode;
 
     List<QTESequence.XboxControllerInput> actualSequence;
+    List<float> actualleftJoystickPos;
+    List<float> actualrightJoystickPos;
     List<Transform> playerPosList;
     bool inQTE = false;
-    Canvas canvas;
+    //Canvas canvas;
     [SerializeField] float playerLerpDuration;
+
+    [SerializeField] GameObject LStickPivot;
+    [SerializeField] GameObject RStickPivot;
+    [SerializeField] float rotationSpeed = 100f;
+    [SerializeField] float angleThreshold;
+
+    float timeToLoose;
+    [SerializeField] float joystickTimer;
+    bool LjoystickGood;
+    bool RjoystickGood;
+
+    [SerializeField] GameObject HUD;
+    [SerializeField] GameObject GameOverCanvas;
+    [SerializeField] Slider inertie;
+    [SerializeField] float inertieGain;
     void Start()
     {
         actualSequence = new List<QTESequence.XboxControllerInput>();
-        canvas = transform.parent.GetComponent<Canvas>();
+        timeToLoose = joystickTimer;
         InitDictionaries();
-        //InitQTE();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (actualSequence.Count != 0 && inQTE)
+        if (!gameOver && inQTE)
         {
-            if (Input.GetKeyDown(inputToKeyCode[actualSequence[0]]))
+            if (actualSequence.Count != 0)
             {
-                Destroy(transform.GetChild(0).gameObject);
-                actualSequence.RemoveAt(0);
+                if (Input.GetKeyDown(inputToKeyCode[actualSequence[0]]))
+                {
+                    //Destroy(transform.gameObject);
+                    actualSequence.RemoveAt(0);
+                    inertie.value += inertieGain;
+                    //move player
+                    StartCoroutine(PlayerLerp(levelGenerator.player.transform.position,
+                        new Vector3(playerPosList[0].position.x, playerPosList[0].position.y -1.5f, levelGenerator.player.transform.position.z)));
+                    playerPosList.RemoveAt(0);
 
-                //move player
-                StartCoroutine(PlayerLerp(levelGenerator.player.transform.position,
-                    playerPosList[0].position - new Vector3(0,1.5f,0)));
-                playerPosList.RemoveAt(0);
+                    actualleftJoystickPos.RemoveAt(0);
+                    actualrightJoystickPos.RemoveAt(0);
+                }
+                else if (Input.GetKeyDown(KeyCode.JoystickButton0) 
+                    || Input.GetKeyDown(KeyCode.JoystickButton1)
+                    || Input.GetKeyDown(KeyCode.JoystickButton2)
+                    || Input.GetKeyDown(KeyCode.JoystickButton3)
+                    || Input.GetKeyDown(KeyCode.JoystickButton4)
+                    || Input.GetKeyDown(KeyCode.JoystickButton5))
+                {
+                    StartCoroutine(GameOver());
+                }
+            }
+            else
+            {
+                inQTE = false;
+                LStickPivot.SetActive(false);
+                RStickPivot.SetActive(false);
+                levelGenerator.NextModule();
+            }
+
+        }
+
+        if (!gameOver)
+        {
+            //Left joystick
+            if (actualleftJoystickPos[0] < 0)
+            {
+                LStickPivot.SetActive(false);
+            }
+            else
+            {
+                LStickPivot.SetActive(true);
+                moveJoystick(actualleftJoystickPos[0], LStickPivot);
+
+            }
+            //check Ljoystick
+            float LhorizontalInput = Input.GetAxis("Horizontal");
+            float LverticalInput = Input.GetAxis("Vertical");
+
+            LjoystickGood = checkJoystickPosition(actualleftJoystickPos[0], LhorizontalInput, LverticalInput);
+
+            //Right joystick
+            if (actualrightJoystickPos[0] < 0)
+            {
+                RStickPivot.SetActive(false);
+            }
+            else
+            {
+                RStickPivot.SetActive(true);
+                moveJoystick(actualrightJoystickPos[0], RStickPivot);
+
+            }
+
+            //check Rjoystick
+            float RhorizontalInput = Input.GetAxis("RHorizontal");
+            float RverticalInput = Input.GetAxis("RVertical");
+
+            RjoystickGood = checkJoystickPosition(actualrightJoystickPos[0], RhorizontalInput, RverticalInput);
+
+            if(RjoystickGood && LjoystickGood)
+            {
+                timeToLoose = joystickTimer;
+            }
+            else
+            {
+                timeToLoose -= Time.deltaTime;
+            }
+
+            if (timeToLoose <= 0)
+            {
+                StartCoroutine(GameOver());
             }
         }
-        else if (inQTE)
+        
+        if(inertie.value >= 100)
         {
-            inQTE = false;
-            levelGenerator.NextModule();
+            if(Input.GetKey(KeyCode.JoystickButton8) && Input.GetKey(KeyCode.JoystickButton9))
+            {
+                levelGenerator.progression++;
+                levelGenerator.NextModule();
+                inertie.value = 0;
+            }
         }
     }
 
+    void moveJoystick(float angleNeeded, GameObject joystick)
+    {
+        Quaternion targetRotation = Quaternion.Euler(0, 0, angleNeeded);
+        joystick.transform.rotation = Quaternion.RotateTowards(joystick.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+    }
+    bool checkJoystickPosition(float angleNeeded, float horizontalInput, float verticalInput)
+    {
+        float joystickangle = Mathf.Atan2(verticalInput, horizontalInput) * Mathf.Rad2Deg;
+        joystickangle -= 90;
+        if (angleNeeded >= 0)
+        {
+            if (Mathf.Abs(Mathf.DeltaAngle(joystickangle, angleNeeded)) <= angleThreshold && new Vector2(horizontalInput, verticalInput).sqrMagnitude > 0.01f)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            if (new Vector2(horizontalInput, verticalInput).sqrMagnitude < 0.01f)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
     public void InitQTE(LevelGenerator.QTEmodule Sequence)
     {
-        actualSequence = Sequence.sequence;
         playerPosList = Sequence.playerSockets;
-        //actualSequence = new List<QTESequence.XboxControllerInput>() { QTESequence.XboxControllerInput.A, QTESequence.XboxControllerInput.B, QTESequence.XboxControllerInput.X };
+        actualleftJoystickPos = Sequence.leftJoystickPos;
+        actualrightJoystickPos = Sequence.rightJoystickPos;
+        actualSequence = Sequence.sequence;
         inQTE = true;
-        //clean actual
-        int childCount = transform.childCount;
-        for (int i = childCount - 1; i >= 0; i--)
-        {
-            Transform child = transform.GetChild(i);
-            Destroy(child.gameObject);
-        }
 
         //display sequence
         for (int i = 0; i < actualSequence.Count; i++)
         {
-            GameObject image = Instantiate(inputImage, transform);
-            image.GetComponent<Image>().sprite = inputIconDictionary[actualSequence[i]];
-
-            Vector3 screenPos = Camera.main.WorldToScreenPoint(Sequence.iconSockets[i].position);
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            canvas.transform as RectTransform, screenPos, canvas.worldCamera, out Vector2 canvasPos);
-
-            image.transform.localPosition = canvasPos;
+            Sequence.iconSockets[i].GetComponent<DecalProjector>().material = inputIconDictionary[actualSequence[i]];
         }
     }
     void InitDictionaries()
     {
-        inputIconDictionary = new Dictionary<QTESequence.XboxControllerInput, Sprite>();
+        inputIconDictionary = new Dictionary<QTESequence.XboxControllerInput, Material>();
         foreach (QTESequence.XboxControllerInput input in System.Enum.GetValues(typeof(QTESequence.XboxControllerInput)))
         {
             inputIconDictionary.Add(input, inputIconList[input.GetHashCode()]);
@@ -91,8 +208,6 @@ public class QTEManager : MonoBehaviour
             { QTESequence.XboxControllerInput.Y, KeyCode.JoystickButton3 },
             { QTESequence.XboxControllerInput.LeftBumper, KeyCode.JoystickButton4 },
             { QTESequence.XboxControllerInput.RightBumper, KeyCode.JoystickButton5 },
-            { QTESequence.XboxControllerInput.LeftStick, KeyCode.JoystickButton8 },
-            { QTESequence.XboxControllerInput.RightStick, KeyCode.JoystickButton9 },
             // Add other mappings as needed
         };
     }
@@ -109,5 +224,17 @@ public class QTEManager : MonoBehaviour
 
         levelGenerator.player.transform.position = endPosition;
         yield return null;
+    }
+
+    bool gameOver;
+    IEnumerator GameOver()
+    {
+        gameOver = true;
+        StartCoroutine(PlayerLerp(levelGenerator.player.transform.position,
+                    levelGenerator.player.transform.position - new Vector3(0, 15f, 0)));
+        yield return new WaitForSeconds(playerLerpDuration);
+        
+        GameOverCanvas.SetActive(true);
+        HUD.SetActive(false);
     }
 }
