@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Rendering.HighDefinition;
 
 
@@ -33,13 +34,13 @@ public class QTEManager : MonoBehaviour
 
     [SerializeField] GameObject HUD;
     [SerializeField] GameObject GameOverCanvas;
+    [SerializeField] Slider inertie;
+    [SerializeField] float inertieGain;
     void Start()
     {
         actualSequence = new List<QTESequence.XboxControllerInput>();
-        //canvas = HUD.transform.parent.GetComponent<Canvas>();
         timeToLoose = joystickTimer;
         InitDictionaries();
-        //InitQTE();
     }
 
     // Update is called once per frame
@@ -53,16 +54,21 @@ public class QTEManager : MonoBehaviour
                 {
                     //Destroy(transform.gameObject);
                     actualSequence.RemoveAt(0);
-
+                    inertie.value += inertieGain;
                     //move player
                     StartCoroutine(PlayerLerp(levelGenerator.player.transform.position,
-                        playerPosList[0].position - new Vector3(0, 1.5f, 0)));
+                        new Vector3(playerPosList[0].position.x, playerPosList[0].position.y -1.5f, levelGenerator.player.transform.position.z)));
                     playerPosList.RemoveAt(0);
 
                     actualleftJoystickPos.RemoveAt(0);
                     actualrightJoystickPos.RemoveAt(0);
                 }
-                else if (Input.anyKeyDown)
+                else if (Input.GetKeyDown(KeyCode.JoystickButton0) 
+                    || Input.GetKeyDown(KeyCode.JoystickButton1)
+                    || Input.GetKeyDown(KeyCode.JoystickButton2)
+                    || Input.GetKeyDown(KeyCode.JoystickButton3)
+                    || Input.GetKeyDown(KeyCode.JoystickButton4)
+                    || Input.GetKeyDown(KeyCode.JoystickButton5))
                 {
                     StartCoroutine(GameOver());
                 }
@@ -128,7 +134,16 @@ public class QTEManager : MonoBehaviour
                 StartCoroutine(GameOver());
             }
         }
-        //print(timeToLoose);
+        
+        if(inertie.value >= 100)
+        {
+            if(Input.GetKey(KeyCode.JoystickButton8) && Input.GetKey(KeyCode.JoystickButton9))
+            {
+                levelGenerator.progression++;
+                levelGenerator.NextModule();
+                inertie.value = 0;
+            }
+        }
     }
 
     void moveJoystick(float angleNeeded, GameObject joystick)
@@ -170,13 +185,6 @@ public class QTEManager : MonoBehaviour
         actualrightJoystickPos = Sequence.rightJoystickPos;
         actualSequence = Sequence.sequence;
         inQTE = true;
-        //clean actual
-        int childCount = transform.childCount;
-        for (int i = childCount - 1; i >= 0; i--)
-        {
-            Transform child = transform.GetChild(i);
-            Destroy(child.gameObject);
-        }
 
         //display sequence
         for (int i = 0; i < actualSequence.Count; i++)
@@ -223,7 +231,7 @@ public class QTEManager : MonoBehaviour
     {
         gameOver = true;
         StartCoroutine(PlayerLerp(levelGenerator.player.transform.position,
-                    playerPosList[0].position - new Vector3(0, 15f, 0)));
+                    levelGenerator.player.transform.position - new Vector3(0, 15f, 0)));
         yield return new WaitForSeconds(playerLerpDuration);
         
         GameOverCanvas.SetActive(true);

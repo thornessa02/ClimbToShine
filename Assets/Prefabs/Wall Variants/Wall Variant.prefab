@@ -764,11 +764,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Decal_A (2)
       objectReference: {fileID: 0}
-    - target: {fileID: 7655083802030743248, guid: 46adb4162aa8384439babf09d4e278d4,
-        type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 2100000, guid: 9216483b2cab2214e9633c48a9abfb24, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

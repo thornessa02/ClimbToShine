@@ -16,7 +16,7 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] GameObject finishModule;
     [SerializeField] float moduleSize;
     [SerializeField] int levelSize;
-    int progression = 0;
+     [HideInInspector]public int progression = 0;
 
     [Header("QTE")]
     [SerializeField] QTEManager qte;
@@ -33,11 +33,13 @@ public class LevelGenerator : MonoBehaviour
 
     [Header("Cam")]
     [SerializeField] GameObject cam;
+    Vector3 camStartPos;
     [SerializeField] float camLerpDuration;
 
 
     void Start()
     {
+        camStartPos = cam.transform.position;
         randomSystem = GetComponent<RandomSystem>();
         if (randomSeed) seed = Random.Range(0,1000);
         randomSystem.Initialize(seed);
@@ -70,7 +72,7 @@ public class LevelGenerator : MonoBehaviour
     {
         progression++;
 
-        Vector3 endPosition = cam.transform.position + Vector3.up *moduleSize;
+        Vector3 endPosition = camStartPos + Vector3.up *moduleSize*progression;
         StartCoroutine(CameraLerp(cam.transform.position,endPosition));
 
         //qte.InitQTE(QTEList[progression]);
