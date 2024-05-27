@@ -104,7 +104,9 @@ public class LevelGenerator : MonoBehaviour
             GetComponent<Timer>().StopTimer();
             hud.SetActive(false);
             finalTime.text = GetComponent<Timer>().FormatTime(GetComponent<Timer>().elapsedTime);
-            if (GetComponent<Timer>().elapsedTime < GetComponent<LeaderboardManager>().GetTopTimes(1)[0]) highScore.SetActive(true);
+
+            if (GetComponent<Timer>().elapsedTime <= GetComponent<LeaderboardManager>().GetTopTimes(1)[0]) highScore.SetActive(true);
+
             StartCoroutine(PlayerLerp(player.transform.position, finishModule.GetComponent<QTESequence>().playerSockets[0].position));
             yield return new WaitForSeconds(playerLerpDuration);
             StartCoroutine(PlayerLerp(player.transform.position, finishModule.GetComponent<QTESequence>().playerSockets[1].position));
