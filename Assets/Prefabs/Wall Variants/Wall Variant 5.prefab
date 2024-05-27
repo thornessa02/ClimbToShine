@@ -613,6 +613,31 @@ PrefabInstance:
       objectReference: {fileID: 1831478112279785204}
     - target: {fileID: 6837665730520856207, guid: 702348481a7497548a26a6a281cb5849,
         type: 3}
+      propertyPath: leftJoystickPos.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6837665730520856207, guid: 702348481a7497548a26a6a281cb5849,
+        type: 3}
+      propertyPath: inputSequence.Array.data[1]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6837665730520856207, guid: 702348481a7497548a26a6a281cb5849,
+        type: 3}
+      propertyPath: inputSequence.Array.data[2]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6837665730520856207, guid: 702348481a7497548a26a6a281cb5849,
+        type: 3}
+      propertyPath: inputSequence.Array.data[3]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6837665730520856207, guid: 702348481a7497548a26a6a281cb5849,
+        type: 3}
+      propertyPath: inputSequence.Array.data[4]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6837665730520856207, guid: 702348481a7497548a26a6a281cb5849,
+        type: 3}
       propertyPath: playerSockets.Array.data[0]
       value: 
       objectReference: {fileID: 8671903086972074648}
@@ -636,6 +661,61 @@ PrefabInstance:
       propertyPath: playerSockets.Array.data[4]
       value: 
       objectReference: {fileID: 690983180264720770}
+    - target: {fileID: 6837665730520856207, guid: 702348481a7497548a26a6a281cb5849,
+        type: 3}
+      propertyPath: rightJoystickPos.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6837665730520856207, guid: 702348481a7497548a26a6a281cb5849,
+        type: 3}
+      propertyPath: leftJoystickPos.Array.data[0]
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6837665730520856207, guid: 702348481a7497548a26a6a281cb5849,
+        type: 3}
+      propertyPath: leftJoystickPos.Array.data[1]
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6837665730520856207, guid: 702348481a7497548a26a6a281cb5849,
+        type: 3}
+      propertyPath: leftJoystickPos.Array.data[2]
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 6837665730520856207, guid: 702348481a7497548a26a6a281cb5849,
+        type: 3}
+      propertyPath: leftJoystickPos.Array.data[3]
+      value: 270
+      objectReference: {fileID: 0}
+    - target: {fileID: 6837665730520856207, guid: 702348481a7497548a26a6a281cb5849,
+        type: 3}
+      propertyPath: leftJoystickPos.Array.data[4]
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 6837665730520856207, guid: 702348481a7497548a26a6a281cb5849,
+        type: 3}
+      propertyPath: rightJoystickPos.Array.data[0]
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6837665730520856207, guid: 702348481a7497548a26a6a281cb5849,
+        type: 3}
+      propertyPath: rightJoystickPos.Array.data[1]
+      value: 270
+      objectReference: {fileID: 0}
+    - target: {fileID: 6837665730520856207, guid: 702348481a7497548a26a6a281cb5849,
+        type: 3}
+      propertyPath: rightJoystickPos.Array.data[2]
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6837665730520856207, guid: 702348481a7497548a26a6a281cb5849,
+        type: 3}
+      propertyPath: rightJoystickPos.Array.data[3]
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6837665730520856207, guid: 702348481a7497548a26a6a281cb5849,
+        type: 3}
+      propertyPath: rightJoystickPos.Array.data[4]
+      value: 90
+      objectReference: {fileID: 0}
     - target: {fileID: 6841745834275682233, guid: 702348481a7497548a26a6a281cb5849,
         type: 3}
       propertyPath: m_Name
