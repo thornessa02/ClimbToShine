@@ -671,22 +671,22 @@ PrefabInstance:
         type: 3}
       propertyPath: iconSockets.Array.data[0]
       value: 
-      objectReference: {fileID: 9174226512218944340}
+      objectReference: {fileID: 8312304620582954541}
     - target: {fileID: 6837665730520856207, guid: 702348481a7497548a26a6a281cb5849,
         type: 3}
       propertyPath: iconSockets.Array.data[1]
       value: 
-      objectReference: {fileID: 4790801048272310679}
+      objectReference: {fileID: 1454459373541194977}
     - target: {fileID: 6837665730520856207, guid: 702348481a7497548a26a6a281cb5849,
         type: 3}
       propertyPath: iconSockets.Array.data[2]
       value: 
-      objectReference: {fileID: 1454459373541194977}
+      objectReference: {fileID: 4790801048272310679}
     - target: {fileID: 6837665730520856207, guid: 702348481a7497548a26a6a281cb5849,
         type: 3}
       propertyPath: iconSockets.Array.data[3]
       value: 
-      objectReference: {fileID: 8312304620582954541}
+      objectReference: {fileID: 9174226512218944340}
     - target: {fileID: 6837665730520856207, guid: 702348481a7497548a26a6a281cb5849,
         type: 3}
       propertyPath: iconSockets.Array.data[4]
@@ -1705,6 +1705,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Decal_A
       objectReference: {fileID: 0}
+    - target: {fileID: 7655083802030743248, guid: 46adb4162aa8384439babf09d4e278d4,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 2100000, guid: 9216483b2cab2214e9633c48a9abfb24, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

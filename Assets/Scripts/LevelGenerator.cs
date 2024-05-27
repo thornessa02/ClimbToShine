@@ -94,7 +94,7 @@ public class LevelGenerator : MonoBehaviour
             //display sequence
             for (int j = 0; j < qte.sequence.Count; j++)
             {
-                qte.iconSockets[j].GetComponent<DecalProjector>().material = qteManager.inputIconDictionary[qte.sequence[j]];
+                instantiated.GetComponent<QTESequence>().iconSockets[j].GetComponent<DecalProjector>().material = qteManager.inputIconDictionary[qte.sequence[j]];
             }
         }
         
