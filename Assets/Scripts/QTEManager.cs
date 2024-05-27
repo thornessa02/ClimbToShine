@@ -141,15 +141,17 @@ public class QTEManager : MonoBehaviour
         
         if(inertie.value >= 100)
         {
+            LR.SetActive(true);
             if(Input.GetKey(KeyCode.JoystickButton8) && Input.GetKey(KeyCode.JoystickButton9))
             {
+                LR.SetActive(false);
                 levelGenerator.progression++;
                 levelGenerator.NextModule();
                 inertie.value = 0;
             }
         }
     }
-
+    [SerializeField] GameObject LR;
     void moveJoystick(float angleNeeded, GameObject joystick)
     {
         Quaternion targetRotation = Quaternion.Euler(0, 0, angleNeeded);
