@@ -232,7 +232,7 @@ public class QTEManager : MonoBehaviour
         levelGenerator.player.transform.position = endPosition;
         GameObject particle = Instantiate(puffParticles, levelGenerator.player.transform.position, Quaternion.identity);
         particle.transform.position += Vector3.up*1.5f;
-        particle.transform.localScale *= 2;
+        //particle.transform.localScale *= 2;
         levelGenerator.playerAnim.SetBool("Climbing", false);
         yield return null;
     }
