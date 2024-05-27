@@ -87,6 +87,7 @@ public class LevelGenerator : MonoBehaviour
 
     }
 
+    public Animator playerAnim;
     IEnumerator CameraLerp(Vector3 startPosition, Vector3 endPosition)
     {
         float time = 0;
@@ -109,6 +110,7 @@ public class LevelGenerator : MonoBehaviour
 
             StartCoroutine(PlayerLerp(player.transform.position, finishModule.GetComponent<QTESequence>().playerSockets[0].position));
             yield return new WaitForSeconds(playerLerpDuration);
+            playerAnim.SetTrigger("Walk");
             StartCoroutine(PlayerLerp(player.transform.position, finishModule.GetComponent<QTESequence>().playerSockets[1].position));
             yield return new WaitForSeconds(playerLerpDuration);
             winScreen.SetActive(true);

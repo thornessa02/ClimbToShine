@@ -217,6 +217,7 @@ public class QTEManager : MonoBehaviour
     }
     IEnumerator PlayerLerp(Vector3 startPosition, Vector3 endPosition,float duration)
     {
+        levelGenerator.playerAnim.SetBool("Climbing", true);
         float time = 0;
         while (time < duration)
         {
@@ -230,6 +231,7 @@ public class QTEManager : MonoBehaviour
         GameObject particle = Instantiate(puffParticles, levelGenerator.player.transform.position, Quaternion.identity);
         particle.transform.position += Vector3.up*1.5f;
         particle.transform.localScale *= 2;
+        levelGenerator.playerAnim.SetBool("Climbing", false);
         yield return null;
     }
 
