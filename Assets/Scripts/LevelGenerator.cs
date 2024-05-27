@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Rendering.HighDefinition;
 public class LevelGenerator : MonoBehaviour
 {
     public GameObject player;
@@ -19,7 +19,7 @@ public class LevelGenerator : MonoBehaviour
      [HideInInspector]public int progression = 0;
 
     [Header("QTE")]
-    [SerializeField] QTEManager qte;
+    [SerializeField] QTEManager qteManager;
     public struct QTEmodule
     {
         public List<QTESequence.XboxControllerInput> sequence;
@@ -50,7 +50,7 @@ public class LevelGenerator : MonoBehaviour
         GenerateWorld();
 
         //First QTE
-        qte.InitQTE(QTEList[0]);
+        qteManager.InitQTE(QTEList[0]);
     }
 
     void GenerateWorld()
@@ -68,6 +68,12 @@ public class LevelGenerator : MonoBehaviour
             qte.playerSockets = instantiated.GetComponent<QTESequence>().playerSockets;
 
             QTEList.Add(qte);
+
+            //display sequence
+            for (int j = 0; j < qte.sequence.Count; j++)
+            {
+                qte.iconSockets[j].GetComponent<DecalProjector>().material = qteManager.inputIconDictionary[qte.sequence[j]];
+            }
         }
         
         finishModule = Instantiate(finishModule, new Vector3(2, 1 * levelSize * moduleSize, -5), Quaternion.identity);
@@ -106,7 +112,7 @@ public class LevelGenerator : MonoBehaviour
             winScreen.SetActive(true);
         }
         else
-        qte.InitQTE(QTEList[progression]);
+            qteManager.InitQTE(QTEList[progression]);
         yield return null;
     }
     IEnumerator PlayerLerp(Vector3 startPosition, Vector3 endPosition)

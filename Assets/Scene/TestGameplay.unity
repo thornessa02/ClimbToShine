@@ -4166,7 +4166,7 @@ MonoBehaviour:
   moduleSize: 10
   levelSize: 3
   progression: 0
-  qte: {fileID: 791225445}
+  qteManager: {fileID: 791225445}
   cam: {fileID: 565776618}
   camLerpDuration: 1
   playerLerpDuration: 1

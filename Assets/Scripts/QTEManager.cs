@@ -11,7 +11,7 @@ public class QTEManager : MonoBehaviour
     //[SerializeField] GameObject inputImage;
     
     [SerializeField] List<Material> inputIconList;
-    Dictionary<QTESequence.XboxControllerInput, Material> inputIconDictionary;
+    [HideInInspector] public Dictionary<QTESequence.XboxControllerInput, Material> inputIconDictionary;
     private Dictionary<QTESequence.XboxControllerInput, KeyCode> inputToKeyCode;
 
     List<QTESequence.XboxControllerInput> actualSequence;
@@ -187,10 +187,10 @@ public class QTEManager : MonoBehaviour
         inQTE = true;
 
         //display sequence
-        for (int i = 0; i < actualSequence.Count; i++)
-        {
-            Sequence.iconSockets[i].GetComponent<DecalProjector>().material = inputIconDictionary[actualSequence[i]];
-        }
+        //for (int i = 0; i < actualSequence.Count; i++)
+        //{
+        //    Sequence.iconSockets[i].GetComponent<DecalProjector>().material = inputIconDictionary[actualSequence[i]];
+        //}
     }
     void InitDictionaries()
     {
