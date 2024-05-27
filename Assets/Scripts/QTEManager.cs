@@ -238,9 +238,11 @@ public class QTEManager : MonoBehaviour
     }
 
     bool gameOver;
+    [SerializeField]AudioSource crumble;
     IEnumerator GameOver()
     {
         gameOver = true;
+        crumble.Play();
         GameObject particle = Instantiate(rockParticles, levelGenerator.player.transform.position, Quaternion.identity);
         particle.transform.position += Vector3.up; 
         particle.transform.localScale *= 10; 
