@@ -1005,6 +1005,71 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1202747888}
     m_Modifications:
+    - target: {fileID: 269601622098497498, guid: e2121a5f338a7314dabbd420e5f9dafa,
+        type: 3}
+      propertyPath: m_Colors.m_NormalColor.b
+      value: 0.7169812
+      objectReference: {fileID: 0}
+    - target: {fileID: 269601622098497498, guid: e2121a5f338a7314dabbd420e5f9dafa,
+        type: 3}
+      propertyPath: m_Colors.m_NormalColor.g
+      value: 0.7169812
+      objectReference: {fileID: 0}
+    - target: {fileID: 269601622098497498, guid: e2121a5f338a7314dabbd420e5f9dafa,
+        type: 3}
+      propertyPath: m_Colors.m_NormalColor.r
+      value: 0.7169812
+      objectReference: {fileID: 0}
+    - target: {fileID: 269601622098497498, guid: e2121a5f338a7314dabbd420e5f9dafa,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202747889}
+    - target: {fileID: 269601622098497498, guid: e2121a5f338a7314dabbd420e5f9dafa,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GoToScene
+      objectReference: {fileID: 0}
+    - target: {fileID: 612971988915698070, guid: e2121a5f338a7314dabbd420e5f9dafa,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1304283603367269696, guid: e2121a5f338a7314dabbd420e5f9dafa,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3420462429776131480, guid: e2121a5f338a7314dabbd420e5f9dafa,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4185172338658235930, guid: e2121a5f338a7314dabbd420e5f9dafa,
+        type: 3}
+      propertyPath: m_Colors.m_NormalColor.b
+      value: 0.7169812
+      objectReference: {fileID: 0}
+    - target: {fileID: 4185172338658235930, guid: e2121a5f338a7314dabbd420e5f9dafa,
+        type: 3}
+      propertyPath: m_Colors.m_NormalColor.g
+      value: 0.7169812
+      objectReference: {fileID: 0}
+    - target: {fileID: 4185172338658235930, guid: e2121a5f338a7314dabbd420e5f9dafa,
+        type: 3}
+      propertyPath: m_Colors.m_NormalColor.r
+      value: 0.7169812
+      objectReference: {fileID: 0}
+    - target: {fileID: 4185172338658235930, guid: e2121a5f338a7314dabbd420e5f9dafa,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1202747889}
+    - target: {fileID: 4185172338658235930, guid: e2121a5f338a7314dabbd420e5f9dafa,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Reload
+      objectReference: {fileID: 0}
     - target: {fileID: 5800752117611002497, guid: e2121a5f338a7314dabbd420e5f9dafa,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1103,6 +1168,11 @@ PrefabInstance:
     - target: {fileID: 5800752117611002497, guid: e2121a5f338a7314dabbd420e5f9dafa,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6035204743102749424, guid: e2121a5f338a7314dabbd420e5f9dafa,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7723545082215765873, guid: e2121a5f338a7314dabbd420e5f9dafa,
@@ -2083,7 +2153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
+  m_FirstSelected: {fileID: 1457839115}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
 --- !u!4 &1289727105
@@ -2106,6 +2176,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2117646868466756774, guid: 21b282d3b0b48be448cafb69a9fc3d9a,
     type: 3}
   m_PrefabInstance: {fileID: 824754517}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1457839115 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7339246208697930859, guid: e2121a5f338a7314dabbd420e5f9dafa,
+    type: 3}
+  m_PrefabInstance: {fileID: 673894357}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1509392988 stripped
 GameObject:
@@ -2777,7 +2853,7 @@ PrefabInstance:
         type: 3}
       propertyPath: HUD
       value: 
-      objectReference: {fileID: 1509392988}
+      objectReference: {fileID: 1169016296}
     - target: {fileID: 9010006701249079173, guid: 88b24771dc61ce441bf3f48ab87e6841,
         type: 3}
       propertyPath: debug
@@ -2808,6 +2884,18 @@ PrefabInstance:
       propertyPath: joystickTimer
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 9010006701249079173, guid: 88b24771dc61ce441bf3f48ab87e6841,
+        type: 3}
+      propertyPath: puffParticles
+      value: 
+      objectReference: {fileID: 1286770513302595317, guid: c4af40e5e0423634b9c3b9bbd957faba,
+        type: 3}
+    - target: {fileID: 9010006701249079173, guid: 88b24771dc61ce441bf3f48ab87e6841,
+        type: 3}
+      propertyPath: rockParticles
+      value: 
+      objectReference: {fileID: 1637967942646767178, guid: 2bccc9847e3674c4ab0b802bee28c96a,
+        type: 3}
     - target: {fileID: 9010006701249079173, guid: 88b24771dc61ce441bf3f48ab87e6841,
         type: 3}
       propertyPath: rotationSpeed
