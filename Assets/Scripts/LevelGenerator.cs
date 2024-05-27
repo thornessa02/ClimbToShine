@@ -100,10 +100,11 @@ public class LevelGenerator : MonoBehaviour
         
         finishModule = Instantiate(finishModule, new Vector3(2, 1 * levelSize * moduleSize, -5), Quaternion.identity);
     }
+    [SerializeField] AudioSource click;
     public void NextModule()
     {
         progression++;
-
+        click.Play();
         Vector3 endPosition = camStartPos + Vector3.up *moduleSize*progression;
         StartCoroutine(CameraLerp(cam.transform.position,endPosition));
 
