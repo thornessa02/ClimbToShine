@@ -2681,6 +2681,7 @@ MonoBehaviour:
   highScore: {fileID: 1725576483}
   finalTime: {fileID: 883739723}
   hud: {fileID: 1169016296}
+  playerAnim: {fileID: 1524118663}
 --- !u!114 &2130823758
 MonoBehaviour:
   m_ObjectHideFlags: 0
