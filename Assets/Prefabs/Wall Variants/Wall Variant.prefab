@@ -709,6 +709,11 @@ PrefabInstance:
       objectReference: {fileID: 8312304620582954541}
     - target: {fileID: 6837665730520856207, guid: 702348481a7497548a26a6a281cb5849,
         type: 3}
+      propertyPath: leftJoystickPos.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6837665730520856207, guid: 702348481a7497548a26a6a281cb5849,
+        type: 3}
       propertyPath: inputSequence.Array.data[1]
       value: 3
       objectReference: {fileID: 0}
@@ -737,6 +742,11 @@ PrefabInstance:
       propertyPath: playerSockets.Array.data[3]
       value: 
       objectReference: {fileID: 4628058447787786815}
+    - target: {fileID: 6837665730520856207, guid: 702348481a7497548a26a6a281cb5849,
+        type: 3}
+      propertyPath: rightJoystickPos.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 6841745834275682233, guid: 702348481a7497548a26a6a281cb5849,
         type: 3}
       propertyPath: m_Name
