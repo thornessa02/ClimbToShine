@@ -40,7 +40,7 @@ public class QTEManager : MonoBehaviour
     [Header("Particles")]
     [SerializeField] GameObject puffParticles;
     [SerializeField] GameObject rockParticles;
-    void Start()
+    void Awake()
     {
         actualSequence = new List<QTESequence.XboxControllerInput>();
         timeToLoose = joystickTimer;
