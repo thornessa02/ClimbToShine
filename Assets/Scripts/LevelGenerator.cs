@@ -7,8 +7,8 @@ public class LevelGenerator : MonoBehaviour
     public GameObject player;
 
     [Header("Seeds")]
-    [SerializeField] bool randomSeed;
-    [SerializeField] int seed;
+    bool randomSeed;
+    int seed;
     RandomSystem randomSystem;
 
     [Header("Modules")]
@@ -43,6 +43,28 @@ public class LevelGenerator : MonoBehaviour
 
     void Start()
     {
+        //seed
+        if (PlayerPrefs.HasKey("UseSeed"))
+        {
+            if (PlayerPrefs.GetInt("UseSeed") == 1) randomSeed = false;
+            else randomSeed = true;
+        }
+
+        if (PlayerPrefs.HasKey("SeedNb"))
+        {
+            int number;
+            bool success = int.TryParse(PlayerPrefs.GetString("SeedNb"), out number);
+
+            if (success)
+            {
+                seed = number;
+            }
+            else
+            {
+                randomSeed = true;
+            }
+        }
+
         camStartPos = cam.transform.position;
         randomSystem = GetComponent<RandomSystem>();
         if (randomSeed) seed = Random.Range(0,1000);
@@ -72,7 +94,7 @@ public class LevelGenerator : MonoBehaviour
             //display sequence
             for (int j = 0; j < qte.sequence.Count; j++)
             {
-                qte.iconSockets[j].GetComponent<DecalProjector>().material = qteManager.inputIconDictionary[qte.sequence[j]];
+                instantiated.GetComponent<QTESequence>().iconSockets[j].GetComponent<DecalProjector>().material = qteManager.inputIconDictionary[qte.sequence[j]];
             }
         }
         
