@@ -11,7 +11,7 @@ public class QTEManager : MonoBehaviour
     //[SerializeField] GameObject inputImage;
     
     [SerializeField] List<Material> inputIconList;
-    Dictionary<QTESequence.XboxControllerInput, Material> inputIconDictionary;
+    [HideInInspector] public Dictionary<QTESequence.XboxControllerInput, Material> inputIconDictionary;
     private Dictionary<QTESequence.XboxControllerInput, KeyCode> inputToKeyCode;
 
     List<QTESequence.XboxControllerInput> actualSequence;
@@ -36,6 +36,10 @@ public class QTEManager : MonoBehaviour
     [SerializeField] GameObject GameOverCanvas;
     [SerializeField] Slider inertie;
     [SerializeField] float inertieGain;
+
+    [Header("Particles")]
+    [SerializeField] GameObject puffParticles;
+    [SerializeField] GameObject rockParticles;
     void Start()
     {
         actualSequence = new List<QTESequence.XboxControllerInput>();
@@ -57,7 +61,7 @@ public class QTEManager : MonoBehaviour
                     inertie.value += inertieGain;
                     //move player
                     StartCoroutine(PlayerLerp(levelGenerator.player.transform.position,
-                        new Vector3(playerPosList[0].position.x, playerPosList[0].position.y -1.5f, levelGenerator.player.transform.position.z)));
+                        new Vector3(playerPosList[0].position.x, playerPosList[0].position.y -1.5f, levelGenerator.player.transform.position.z), playerLerpDuration));
                     playerPosList.RemoveAt(0);
 
                     actualleftJoystickPos.RemoveAt(0);
@@ -187,10 +191,10 @@ public class QTEManager : MonoBehaviour
         inQTE = true;
 
         //display sequence
-        for (int i = 0; i < actualSequence.Count; i++)
-        {
-            Sequence.iconSockets[i].GetComponent<DecalProjector>().material = inputIconDictionary[actualSequence[i]];
-        }
+        //for (int i = 0; i < actualSequence.Count; i++)
+        //{
+        //    Sequence.iconSockets[i].GetComponent<DecalProjector>().material = inputIconDictionary[actualSequence[i]];
+        //}
     }
     void InitDictionaries()
     {
@@ -211,18 +215,23 @@ public class QTEManager : MonoBehaviour
             // Add other mappings as needed
         };
     }
-    IEnumerator PlayerLerp(Vector3 startPosition, Vector3 endPosition)
+    IEnumerator PlayerLerp(Vector3 startPosition, Vector3 endPosition,float duration)
     {
+        levelGenerator.playerAnim.SetBool("Climbing", true);
         float time = 0;
-        while (time < playerLerpDuration)
+        while (time < duration)
         {
-            float t = time / playerLerpDuration;
+            float t = time / duration;
             levelGenerator.player.transform.position = Vector3.Lerp(startPosition, endPosition, t);
             time += Time.deltaTime;
             yield return null;
         }
 
         levelGenerator.player.transform.position = endPosition;
+        GameObject particle = Instantiate(puffParticles, levelGenerator.player.transform.position, Quaternion.identity);
+        particle.transform.position += Vector3.up*1.5f;
+        particle.transform.localScale *= 2;
+        levelGenerator.playerAnim.SetBool("Climbing", false);
         yield return null;
     }
 
@@ -230,9 +239,12 @@ public class QTEManager : MonoBehaviour
     IEnumerator GameOver()
     {
         gameOver = true;
+        GameObject particle = Instantiate(rockParticles, levelGenerator.player.transform.position, Quaternion.identity);
+        particle.transform.position += Vector3.up; 
+        particle.transform.localScale *= 10; 
         StartCoroutine(PlayerLerp(levelGenerator.player.transform.position,
-                    levelGenerator.player.transform.position - new Vector3(0, 15f, 0)));
-        yield return new WaitForSeconds(playerLerpDuration);
+                    levelGenerator.player.transform.position - new Vector3(0, 15f, 0), playerLerpDuration*5));
+        yield return new WaitForSeconds(playerLerpDuration * 5);
         
         GameOverCanvas.SetActive(true);
         HUD.SetActive(false);

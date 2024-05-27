@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Rendering.HighDefinition;
 public class LevelGenerator : MonoBehaviour
 {
     public GameObject player;
@@ -19,7 +19,7 @@ public class LevelGenerator : MonoBehaviour
      [HideInInspector]public int progression = 0;
 
     [Header("QTE")]
-    [SerializeField] QTEManager qte;
+    [SerializeField] QTEManager qteManager;
     public struct QTEmodule
     {
         public List<QTESequence.XboxControllerInput> sequence;
@@ -35,7 +35,11 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] GameObject cam;
     Vector3 camStartPos;
     [SerializeField] float camLerpDuration;
-
+    [SerializeField] float playerLerpDuration;
+    [SerializeField] GameObject winScreen;
+    [SerializeField] GameObject highScore;
+    [SerializeField] TMPro.TMP_Text finalTime;
+    [SerializeField] GameObject hud;
 
     void Start()
     {
@@ -46,7 +50,7 @@ public class LevelGenerator : MonoBehaviour
         GenerateWorld();
 
         //First QTE
-        qte.InitQTE(QTEList[0]);
+        qteManager.InitQTE(QTEList[0]);
     }
 
     void GenerateWorld()
@@ -64,9 +68,15 @@ public class LevelGenerator : MonoBehaviour
             qte.playerSockets = instantiated.GetComponent<QTESequence>().playerSockets;
 
             QTEList.Add(qte);
-        }
 
-        Instantiate(finishModule, Vector3.up * levelSize * moduleSize, Quaternion.identity);
+            //display sequence
+            for (int j = 0; j < qte.sequence.Count; j++)
+            {
+                qte.iconSockets[j].GetComponent<DecalProjector>().material = qteManager.inputIconDictionary[qte.sequence[j]];
+            }
+        }
+        
+        finishModule = Instantiate(finishModule, new Vector3(2, 1 * levelSize * moduleSize, -5), Quaternion.identity);
     }
     public void NextModule()
     {
@@ -75,9 +85,9 @@ public class LevelGenerator : MonoBehaviour
         Vector3 endPosition = camStartPos + Vector3.up *moduleSize*progression;
         StartCoroutine(CameraLerp(cam.transform.position,endPosition));
 
-        //qte.InitQTE(QTEList[progression]);
     }
 
+    public Animator playerAnim;
     IEnumerator CameraLerp(Vector3 startPosition, Vector3 endPosition)
     {
         float time = 0;
@@ -90,7 +100,37 @@ public class LevelGenerator : MonoBehaviour
         }
 
         cam.transform.position = endPosition;
-        qte.InitQTE(QTEList[progression]);
+        if (progression == levelSize)
+        {
+            GetComponent<Timer>().StopTimer();
+            hud.SetActive(false);
+            finalTime.text = GetComponent<Timer>().FormatTime(GetComponent<Timer>().elapsedTime);
+
+            if (GetComponent<Timer>().elapsedTime <= GetComponent<LeaderboardManager>().GetTopTimes(1)[0]) highScore.SetActive(true);
+
+            StartCoroutine(PlayerLerp(player.transform.position, finishModule.GetComponent<QTESequence>().playerSockets[0].position));
+            yield return new WaitForSeconds(playerLerpDuration);
+            playerAnim.SetTrigger("Walk");
+            StartCoroutine(PlayerLerp(player.transform.position, finishModule.GetComponent<QTESequence>().playerSockets[1].position));
+            yield return new WaitForSeconds(playerLerpDuration);
+            winScreen.SetActive(true);
+        }
+        else
+            qteManager.InitQTE(QTEList[progression]);
+        yield return null;
+    }
+    IEnumerator PlayerLerp(Vector3 startPosition, Vector3 endPosition)
+    {
+        float time = 0;
+        while (time < playerLerpDuration)
+        {
+            float t = time / playerLerpDuration;
+            player.transform.position = Vector3.Lerp(startPosition, endPosition, t);
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        player.transform.position = endPosition;
         yield return null;
     }
 }
