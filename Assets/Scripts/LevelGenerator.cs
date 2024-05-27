@@ -35,7 +35,11 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] GameObject cam;
     Vector3 camStartPos;
     [SerializeField] float camLerpDuration;
-
+    [SerializeField] float playerLerpDuration;
+    [SerializeField] GameObject winScreen;
+    [SerializeField] GameObject highScore;
+    [SerializeField] TMPro.TMP_Text finalTime;
+    [SerializeField] GameObject hud;
 
     void Start()
     {
@@ -65,8 +69,8 @@ public class LevelGenerator : MonoBehaviour
 
             QTEList.Add(qte);
         }
-
-        Instantiate(finishModule, Vector3.up * levelSize * moduleSize, Quaternion.identity);
+        
+        finishModule = Instantiate(finishModule, new Vector3(2, 1 * levelSize * moduleSize, -5), Quaternion.identity);
     }
     public void NextModule()
     {
@@ -75,7 +79,6 @@ public class LevelGenerator : MonoBehaviour
         Vector3 endPosition = camStartPos + Vector3.up *moduleSize*progression;
         StartCoroutine(CameraLerp(cam.transform.position,endPosition));
 
-        //qte.InitQTE(QTEList[progression]);
     }
 
     IEnumerator CameraLerp(Vector3 startPosition, Vector3 endPosition)
@@ -90,7 +93,34 @@ public class LevelGenerator : MonoBehaviour
         }
 
         cam.transform.position = endPosition;
+        if (progression == levelSize)
+        {
+            GetComponent<Timer>().StopTimer();
+            hud.SetActive(false);
+            finalTime.text = GetComponent<Timer>().FormatTime(GetComponent<Timer>().elapsedTime);
+            if (GetComponent<Timer>().elapsedTime < GetComponent<LeaderboardManager>().GetTopTimes(1)[0]) highScore.SetActive(true);
+            StartCoroutine(PlayerLerp(player.transform.position, finishModule.GetComponent<QTESequence>().playerSockets[0].position));
+            yield return new WaitForSeconds(playerLerpDuration);
+            StartCoroutine(PlayerLerp(player.transform.position, finishModule.GetComponent<QTESequence>().playerSockets[1].position));
+            yield return new WaitForSeconds(playerLerpDuration);
+            winScreen.SetActive(true);
+        }
+        else
         qte.InitQTE(QTEList[progression]);
+        yield return null;
+    }
+    IEnumerator PlayerLerp(Vector3 startPosition, Vector3 endPosition)
+    {
+        float time = 0;
+        while (time < playerLerpDuration)
+        {
+            float t = time / playerLerpDuration;
+            player.transform.position = Vector3.Lerp(startPosition, endPosition, t);
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        player.transform.position = endPosition;
         yield return null;
     }
 }

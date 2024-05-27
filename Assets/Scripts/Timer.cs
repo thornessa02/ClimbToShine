@@ -5,7 +5,7 @@ using TMPro;
 public class Timer : MonoBehaviour
 {
     [SerializeField] TMP_Text timerText;
-    float elapsedTime;
+    [HideInInspector]public float elapsedTime;
     bool isRunning;
 
     void Start()
@@ -29,7 +29,7 @@ public class Timer : MonoBehaviour
         SaveTime(elapsedTime);
     }
 
-    private string FormatTime(float time)
+    public string FormatTime(float time)
     {
         int minutes = Mathf.FloorToInt(time / 60F);
         int seconds = Mathf.FloorToInt(time % 60F);

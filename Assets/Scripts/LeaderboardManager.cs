@@ -20,7 +20,10 @@ public class LeaderboardManager : MonoBehaviour
 
     private LeaderboardData leaderboardData = new LeaderboardData();
     private const string PlayerPrefsKey = "LeaderboardData";
-
+    private void Start()
+    {
+        LoadLeaderboard();
+    }
     public void AddTime(float time)
     {
         leaderboardData.entries.Add(new LeaderboardEntry { time = time });
