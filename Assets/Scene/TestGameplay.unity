@@ -1665,7 +1665,7 @@ PrefabInstance:
     - target: {fileID: 2117646868466756774, guid: 21b282d3b0b48be448cafb69a9fc3d9a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 20
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 2117646868466756774, guid: 21b282d3b0b48be448cafb69a9fc3d9a,
         type: 3}
@@ -2582,7 +2582,7 @@ PrefabInstance:
     - target: {fileID: 6001413520569701041, guid: 2a04a5da06cbeaf40afe12470f4c73ee,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 6001413520569701041, guid: 2a04a5da06cbeaf40afe12470f4c73ee,
         type: 3}
@@ -2592,7 +2592,7 @@ PrefabInstance:
     - target: {fileID: 6001413520569701041, guid: 2a04a5da06cbeaf40afe12470f4c73ee,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -6.04
+      value: -13.11
       objectReference: {fileID: 0}
     - target: {fileID: 6001413520569701041, guid: 2a04a5da06cbeaf40afe12470f4c73ee,
         type: 3}
@@ -2818,7 +2818,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 2539aa8d43f590f45b5ba7309d66bee1, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -2935,7 +2935,7 @@ Transform:
   m_GameObject: {fileID: 1574009035}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.46, y: -3.01, z: -9.34}
+  m_LocalPosition: {x: 0.46, y: -3.01, z: -9.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2981,7 +2981,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 196e27e3999781344a509a85019ee422, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.839
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -3776,7 +3776,7 @@ PrefabInstance:
     - target: {fileID: 9010006701249079173, guid: 88b24771dc61ce441bf3f48ab87e6841,
         type: 3}
       propertyPath: joystickTimer
-      value: 2
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 9010006701249079173, guid: 88b24771dc61ce441bf3f48ab87e6841,
         type: 3}
